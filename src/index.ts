@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 
 const app = express();
 
-const PORT: number = parseInt(process.env.PORT || '3000', 10);
+const PORT = process.env.port || 3000;
 
 app.get('/', (_: Request, res: Response) => {
   res.send('<h1>Server is running! 🚀</h1>');
