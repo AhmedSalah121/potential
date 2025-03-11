@@ -2,10 +2,10 @@ import express, { Request, Response } from 'express';
 
 const app = express();
 
-const PORT = process.env.port || 3000;
+const PORT = process.env.PORT || 3000;
 
 app.get('/', (_: Request, res: Response) => {
-  res.send('<h1>Server is running! 🚀</h1>');
+  res.send({message: 'Server is running! 🚀'});
 });
 
 app.listen(PORT, () => {
