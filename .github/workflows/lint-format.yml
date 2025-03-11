@@ -15,23 +15,23 @@ jobs:
     steps:
       # Checkout the repository
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 22.12.0
+          node-version: 20.x
           cache: 'npm'
 
       # Install dependencies
       - name: Install dependencies
-        run: npm install
+        run: npm ci  # `npm ci` for CI/CD environments (faster and more reliable)
 
       # Run ESLint for linting
       - name: Run ESLint
         run: npm run lint
 
       # Run Prettier for formatting
-      - name: Run Prettier
-        run: npm run format
+      - name: Run Prettier (Check Only)
+        run: npm run format -- --check
