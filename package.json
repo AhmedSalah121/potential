@@ -9,7 +9,12 @@
     "dev": "ts-node-dev src/index.ts",
     "test": "jest",
     "lint": "eslint --fix . --max-warnings=0 --config ./eslint.config.mjs",
-    "format": "prettier --write \"src/**/*.ts\""
+    "format": "prettier --write \"src/**/*.ts\"",
+    "docker-compose-up": "docker compose up -d",
+    "docker-compose-down": "docker compose down --remove-orphans",
+    "db-new-migration": "prisma migrate dev --name $NEW_MIGRATION_NAME --create-only",
+    "generate:prisma": "prisma generate",
+    "db-migrate": "prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
@@ -21,12 +26,13 @@
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.3",
     "prettier": "^3.5.3",
+    "prisma": "^6.5.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.7.3"
   },
   "dependencies": {
     "@eslint/js": "^9.21.0",
-    "@prisma/client": "^6.4.1",
+    "@prisma/client": "^6.5.0",
     "@vercel/node": "^5.1.11",
     "express": "^4.21.2",
     "typescript-eslint": "^8.25.0"

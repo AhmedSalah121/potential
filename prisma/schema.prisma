@@ -12,3 +12,34 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model DebtOverview {
+  id             Int      @id @default(autoincrement())
+  total_debt_usd   BigInt
+  external_debt_usd BigInt
+  domestic_debt_usd BigInt
+  debt_to_gdp      Float
+  updated_at      DateTime @default(now())
+}
+
+model DebtHistory {
+  id           Int      @id @default(autoincrement())
+  year         Int      @unique
+  total_debt_usd BigInt
+  debt_to_gdp    Float
+  created_at    DateTime @default(now())
+}
+
+model DebtSources {
+  id           Int      @id @default(autoincrement())
+  creditor_name String   @db.VarChar(100)
+  amount_usd    BigInt
+  updated_at    DateTime @default(now())
+}
+
+model Population {
+  id         Int      @id @default(autoincrement())
+  year       Int      @unique
+  population BigInt
+  updated_at  DateTime @default(now())
+}

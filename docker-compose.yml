@@ -1,14 +1,11 @@
    services:
-     mongodb:
-       image: mongo:latest
-       container_name: mongodb
-       ports:
-         - "27017:27017"
+     postgres-db:
+       image: postgres:latest
+       container_name: postgres-db-debt
+       restart: always
        environment:
-         MONG_USERNAME: user
-         MONGO_PASSWORD: user
-       volumes:
-         - mongo-data:/data/db
-
-   volumes:
-     mongo-data:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: development
+       ports:
+        - "5432:5432" 
