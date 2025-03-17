@@ -1,17 +1,17 @@
 export interface DebtOverview {
-    totalDebtUSD: number;
-    externalDebtUSD: number;
-    domesticDebtUSD: number;
-    debtPercentageToGDP: number;
+  totalDebtUSD: number;
+  externalDebtUSD: number;
+  domesticDebtUSD: number;
+  debtPercentageToGDP: number;
 }
 
 export interface HistoricalDebt {
-    year: number;
-    totalDebtUSD: number;
-    debtPercentageToGDP: number;
+  year: number;
+  totalDebtUSD: number;
+  debtPercentageToGDP: number;
 }
 
 export interface DebtSource {
-    creditor: string;
-    amountUSD: number;
+  creditor: string;
+  amountUSD: number;
 }
