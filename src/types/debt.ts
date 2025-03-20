@@ -1,17 +1,23 @@
-export interface DebtOverview {
+export interface IDebtOverview {
     totalDebtUSD: number;
     externalDebtUSD: number;
     domesticDebtUSD: number;
     debtPercentageToGDP: number;
 }
 
-export interface HistoricalDebt {
+export interface IHistoricalDebt {
     year: number;
     totalDebtUSD: number;
     debtPercentageToGDP: number;
 }
 
-export interface DebtSource {
+export interface IDebtSource {
     creditor: string;
     amountUSD: number;
 }
+
+// export interface IDateRange {
+//     start: number;
+//     end: number;
+//     toString(): `${number}:${number}`;
+// }
