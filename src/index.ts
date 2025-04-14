@@ -1,12 +1,12 @@
 import express, { Request, Response } from 'express';
 import { ProductController } from './interfaces/controllers/product-controller';
 import { ProductRepository } from './domain/repositories/product-repository';
-import { ProductRepositoryI } from './infrastructure/repositories/product-repository-i';
+import { ProductRepositoryImpl } from './infrastructure/repositories/product-repository-impl';
 import { PrismaClient } from '@prisma/client';
 import ProductRouter from './interfaces/routes/product-router';
 
 const db = new PrismaClient();
-const productRepository: ProductRepository = new ProductRepositoryI(db);
+const productRepository: ProductRepository = new ProductRepositoryImpl(db);
 const productController = new ProductController(productRepository);
 
 const app = express();
