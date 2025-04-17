@@ -17,9 +17,53 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded());
 
+
+function toMB(bytes: number): number {
+  return parseFloat((bytes / (1024 * 1024)).toFixed(2));
+}
+
+const memory = process.memoryUsage();
+
+const memoryMB = Object.fromEntries(
+  Object.entries(memory).map(([k, v]) => [k, toMB(v)])
+);
+
 // Routes
-app.get('/', (_: Request, res: Response) => {
-  res.json({ message: 'Store API is running! 🚀' });
+app.get('/', async (_: Request, res: Response) => {
+  try {
+    const serverInfo = {
+      status: 'running 🚀',
+      time: new Date().toISOString(),
+      uptime: (process.uptime() / 3600).toFixed(2) + ' hours',
+      nodeVersion: process.version,
+      platform: process.platform,
+      memoryUsage: memoryMB,
+      memoryUnit: 'MB'
+    };
+    
+    const deploymentInfo = {
+      vercel: {
+        region: process.env.VERCEL_REGION || 'local',
+        environment: process.env.VERCEL_ENV || 'development',
+        gitBranch: process.env.VERCEL_GIT_COMMIT_REF || 'unknown',
+        commit: process.env.VERCEL_GIT_COMMIT_SHA || 'unknown',
+      },
+      buildTime: process.env.BUILD_TIME || new Date().toISOString(),
+    };
+
+    res.json({
+      message: "Store API",
+      server: serverInfo,
+      deployment: deploymentInfo,
+    });
+
+  } catch (error) {
+    console.error('Root endpoint error:', error);
+    res.status(500).json({ 
+      error: 'Diagnostics failed',
+      details: error instanceof Error ? error.message : String(error)
+    });
+  }
 });
 
 app.use('/api/v1/products', new ProductRouter(productController).getRouter());
