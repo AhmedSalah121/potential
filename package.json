@@ -15,19 +15,28 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "docker-compose-up": "docker compose up -d",
     "docker-compose-down": "docker compose down --remove-orphans",
-    "db-new-migration": "prisma migrate dev --name",
+    "db-new-migration": "prisma migrate dev --name $NEW_MIGRATION_NAME --create-only",
     "generate:prisma": "prisma generate",
     "db-migrate": "prisma migrate deploy",
     "db-push": "prisma db push",
     "seed": "ts-node src/infrastructure/database/seed.ts"
   },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "maxWorkers": 1,
+    "testPathIgnorePatterns": [
+      "/dist/",
+      "/.vercel/"
+    ]
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/express": "^5.0.0",
+    "@types/express": "^5.0.1",
     "@types/jest": "^29.5.14",
-    "@types/node": "^22.13.5",
+    "@types/node": "^22.14.1",
     "@types/supertest": "^6.0.3",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
@@ -42,9 +51,11 @@
   "dependencies": {
     "@eslint/js": "^9.21.0",
     "@prisma/client": "^6.5.0",
-    "prisma": "^6.5.0",
+    "@supabase/supabase-js": "^2.49.4",
     "@vercel/node": "^5.1.11",
+    "dotenv": "^16.5.0",
     "express": "^4.21.2",
+    "prisma": "^6.5.0",
     "typescript-eslint": "^8.25.0"
   }
 }
