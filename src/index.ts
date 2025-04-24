@@ -4,10 +4,20 @@ import { ProductRepository } from './domain/repositories/product-repository';
 import { ProductRepositoryImpl } from './infrastructure/repositories/product-repository-impl';
 import { PrismaClient } from '@prisma/client';
 import ProductRouter from './interfaces/routes/product-router';
+import { UserRepository } from './domain/repositories/user-repository';
+import { UserRepositoryImpl } from './infrastructure/repositories/user-repository-impl';
+import UserController from './interfaces/controllers/user-controller';
+import UserRouter from './interfaces/routes/user-router';
+import SupabaseAuth from './application/middlewares/supabase-auth';
 
 const db = new PrismaClient();
+
 const productRepository: ProductRepository = new ProductRepositoryImpl(db);
 const productController = new ProductController(productRepository);
+
+const userRepository: UserRepository = new UserRepositoryImpl(db);
+const userController = new UserController(userRepository);
+const supabaseAuth = new SupabaseAuth();
 
 const app = express();
 
@@ -67,6 +77,8 @@ app.get('/', async (_: Request, res: Response) => {
 });
 
 app.use('/api/v1/products', new ProductRouter(productController).getRouter());
+
+app.use('/api/v1/users', new UserRouter(userController, supabaseAuth).getRouter());
 
 app.listen(PORT, () => {
   console.log(`API is running on port ${PORT}`);
