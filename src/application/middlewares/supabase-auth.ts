@@ -10,7 +10,7 @@ class SupabaseAuth {
 
   constructor() {
     this.supabaseUrl = process.env.SUPABASE_URL || '';
-    this.supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY || '';
+    this.supabaseServiceKey = process.env.SUPABASE_KEY || '';
     this.supabase = createClient(this.supabaseUrl, this.supabaseServiceKey);
   }
 
