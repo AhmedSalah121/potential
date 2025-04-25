@@ -15,13 +15,13 @@ export enum UserRole {
 }
 
 export class User {
-  public readonly id?: string;
-  public readonly firstName: string;
-  public readonly lastName: string;
-  public readonly email: string;
-  public readonly role: UserRole;
-  public readonly createdAt?: Date;
-  public readonly updatedAt?: Date;
+  public id?: string;
+  public firstName: string;
+  public lastName: string;
+  public email: string;
+  public role: UserRole;
+  public createdAt?: Date;
+  public updatedAt?: Date;
 
   constructor(u: UserProps) {
     this.id = u.id;
