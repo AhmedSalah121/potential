@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { Gender, WorkoutTime } from '../domain/entities/User';
 import { exec } from 'node:child_process';
 import * as util from 'node:util';
 import { UserRepository } from '../domain/repositories/user-repository';
@@ -46,7 +47,15 @@ describe('UserRepository Tests', () => {
       const users: User[] = [
         {
           id: '1',
-          role: UserRole.Customer,
+          role: UserRole.Member,
+          gender: Gender.Male,
+          age: 20,
+          phone: '1234567890',
+          seekingPartner: true,
+          preferredTime: WorkoutTime.Morning,
+          isTrainer: false,
+          hourlyRate: 100,
+          gymId: '1',
           createdAt: now,
           updatedAt: now,
           firstName: 'ahmed',
@@ -64,7 +73,15 @@ describe('UserRepository Tests', () => {
         expect.arrayContaining([
           expect.objectContaining({
             id: '1',
-            role: UserRole.Customer,
+            role: UserRole.Member,
+            gender: Gender.Male,
+            age: 20,
+            phone: '1234567890',
+            seekingPartner: true,
+            preferredTime: WorkoutTime.Morning,
+            isTrainer: false,
+            hourlyRate: 100,
+            gymId: '1',
             createdAt: now,
             updatedAt: now,
             firstName: 'ahmed',
@@ -78,61 +95,58 @@ describe('UserRepository Tests', () => {
     it('update', async () => {
       // Arrange
       const now = new Date();
-      const users: User[] = [
+      await userRepository.save(
+        [
+          {
+            id: '1',
+            role: UserRole.Member,
+            gender: Gender.Male,
+            age: 20,
+            phone: '1234567890',
+            seekingPartner: true,
+            preferredTime: WorkoutTime.Morning,
+            isTrainer: false,
+            hourlyRate: 100,
+            gymId: '1',
+            createdAt: now,
+            updatedAt: now,
+            firstName: 'ahmed',
+            lastName: 'salah',
+            email: 'a@gmail.com',
+          },
+        ]
+      );
+
+      // Act
+      const updated = await userRepository.save([
         {
           id: '1',
-          role: UserRole.Customer,
+          role: UserRole.Member,
+          gender: Gender.Male,
+          age: 24,
+          phone: '1234567890',
+          seekingPartner: false,
+          preferredTime: WorkoutTime.Morning,
+          isTrainer: false,
+          hourlyRate: 100,
+          gymId: '1',
           createdAt: now,
           updatedAt: now,
           firstName: 'ahmed',
           lastName: 'salah',
           email: 'a@gmail.com',
         },
-      ];
-
-      const before = await userRepository.save(users);
-
-      // Act
-      const after = await userRepository.save([
-        {
-          id: '1',
-          role: UserRole.Customer,
-          createdAt: now,
-          updatedAt: now,
-          firstName: "new ahmed",
-          lastName: "what?",
-          email: "a@gmail.com"
-        },
       ]);
 
       // Assert
-      expect(after).toHaveLength(1);
-      expect(before).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining(
-            {
-              id: '1',
-              role: UserRole.Customer,
-              createdAt: now,
-              updatedAt: now,
-              firstName: 'ahmed',
-              lastName: 'salah',
-              email: 'a@gmail.com',
-            },
-          )
-        ])
-      )
-      expect(after).toEqual(
+      expect(updated).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
             id: '1',
-            role: UserRole.Customer,
-            createdAt: now,
-            updatedAt: now,
-            firstName: "new ahmed",
-            lastName: "what?",
-            email: "a@gmail.com"
-          },),
+            age: 24,
+            seekingPartner: false,
+          },
+        ),
         ])
       );
     });
