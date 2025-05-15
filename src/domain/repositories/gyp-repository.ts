@@ -5,6 +5,7 @@ export class GymFetchOptions {
   private _ids?: string[];
   private _name?: string;
   private _address?: string;
+  private _members?: string[];
 
   get ids() : string[] | undefined {
     return  this._ids;
@@ -28,6 +29,14 @@ export class GymFetchOptions {
 
   set address(value: string) {
     this._address = value;
+  }
+
+  get members(): string[] | undefined {
+    return this._members;
+  }
+
+  set members(value: string[]) {
+    this._members = value;
   }
 }
 

@@ -4,7 +4,7 @@ import { PrismaFilter } from '../database/prisma-client';
 import * as domain from "../../domain/entities/Gym";
 import { GymMapper } from '../mappers/gym-mapper';
 
-export class UserRepositoryImpl implements GymRepository {
+export class GymRepositoryImpl implements GymRepository {
   private prisma: PrismaClient;
 
   constructor(prisma: PrismaClient) {

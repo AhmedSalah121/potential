@@ -1,10 +1,9 @@
-import { User } from "./User";
-
 export interface GymProps {
     id?: string,
     name: string,
     address: string,
-    members: User[],
+    // members: array of user ids
+    members: string[],
     createdAt?: Date,
     updatedAt?: Date,
   }
@@ -13,7 +12,7 @@ export interface GymProps {
     public id?: string;
     public name: string;
     public address: string;
-    public members: User[];
+    public members: string[];
     public createdAt?: Date;
     public updatedAt?: Date;
   

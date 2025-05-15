@@ -9,6 +9,11 @@ import { UserRepositoryImpl } from './infrastructure/repositories/user-repositor
 import UserController from './interfaces/controllers/user-controller';
 import UserRouter from './interfaces/routes/user-router';
 import SupabaseAuth from './application/middlewares/supabase-auth';
+import GymRouter from './interfaces/routes/gym-router';
+import { GymRepository } from './domain/repositories/gyp-repository';
+import { GymRepositoryImpl } from './infrastructure/repositories/gym-repository-impl';
+import GymController from './interfaces/controllers/gym-controller';
+import RoleAuth from './application/middlewares/role-auth';
 
 const db = new PrismaClient();
 
@@ -18,6 +23,10 @@ const productController = new ProductController(productRepository);
 const userRepository: UserRepository = new UserRepositoryImpl(db);
 const userController = new UserController(userRepository);
 const supabaseAuth = new SupabaseAuth();
+const roleAuth = new RoleAuth(userRepository);
+
+const gymRepository: GymRepository = new GymRepositoryImpl(db);
+const gymController = new GymController(gymRepository, userRepository);
 
 const app = express();
 
@@ -76,9 +85,13 @@ app.get('/', async (_: Request, res: Response) => {
   }
 });
 
-app.use('/api/v1/products', new ProductRouter(productController).getRouter());
+const productRouter = new ProductRouter(productController);
+const userRouter = new UserRouter(userController, supabaseAuth);
+const gymRouter = new GymRouter(gymController, supabaseAuth, roleAuth);
 
-app.use('/api/v1/users', new UserRouter(userController, supabaseAuth).getRouter());
+app.use('/api/v1/products', productRouter.getRouter());
+app.use('/api/v1/users', userRouter.getRouter());
+app.use('/api/v1/gyms', gymRouter.getRouter());
 
 app.listen(PORT, () => {
   console.log(`API is running on port ${PORT}`);
