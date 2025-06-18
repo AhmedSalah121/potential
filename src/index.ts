@@ -1,9 +1,5 @@
 import express, { Request, Response } from 'express';
-import { ProductController } from './interfaces/controllers/product-controller';
-import { ProductRepository } from './domain/repositories/product-repository';
-import { ProductRepositoryImpl } from './infrastructure/repositories/product-repository-impl';
 import { PrismaClient } from '@prisma/client';
-import ProductRouter from './interfaces/routes/product-router';
 import { UserRepository } from './domain/repositories/user-repository';
 import { UserRepositoryImpl } from './infrastructure/repositories/user-repository-impl';
 import UserController from './interfaces/controllers/user-controller';
@@ -13,17 +9,12 @@ import GymRouter from './interfaces/routes/gym-router';
 import { GymRepository } from './domain/repositories/gyp-repository';
 import { GymRepositoryImpl } from './infrastructure/repositories/gym-repository-impl';
 import GymController from './interfaces/controllers/gym-controller';
-import RoleAuth from './application/middlewares/role-auth';
 
 const db = new PrismaClient();
-
-const productRepository: ProductRepository = new ProductRepositoryImpl(db);
-const productController = new ProductController(productRepository);
 
 const userRepository: UserRepository = new UserRepositoryImpl(db);
 const userController = new UserController(userRepository);
 const supabaseAuth = new SupabaseAuth();
-const roleAuth = new RoleAuth(userRepository);
 
 const gymRepository: GymRepository = new GymRepositoryImpl(db);
 const gymController = new GymController(gymRepository, userRepository);
@@ -85,11 +76,9 @@ app.get('/', async (_: Request, res: Response) => {
   }
 });
 
-const productRouter = new ProductRouter(productController);
 const userRouter = new UserRouter(userController, supabaseAuth);
-const gymRouter = new GymRouter(gymController, supabaseAuth, roleAuth);
+const gymRouter = new GymRouter(gymController, supabaseAuth);
 
-app.use('/api/v1/products', productRouter.getRouter());
 app.use('/api/v1/users', userRouter.getRouter());
 app.use('/api/v1/gyms', gymRouter.getRouter());
 
