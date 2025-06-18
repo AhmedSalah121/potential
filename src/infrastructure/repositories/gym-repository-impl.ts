@@ -41,13 +41,10 @@ export class GymRepositoryImpl implements GymRepository {
     const saved = await Promise.all(
       gyms.map((gym)=> {
         return this.prisma.gym.upsert({
-          where: {id: gym.id},
+          where: {id: gym.id ?? ''},
           update: {
             name: gym.name,
             address: gym.address,
-            members: {
-              set: gym.members ? gym.members.map(member => ({ id: member.id })) : []
-            },
             updated_at: gym.updatedAt,
           },
           create: {
