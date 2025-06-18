@@ -35,15 +35,13 @@ export class UserRepositoryImpl implements UserRepository {
 
   async save(users: domain.User[]): Promise<domain.User[]> {
     const saved = await Promise.all(
-      users.map((user)=> {
+      users.map((user) => {
+        const dbUser = UserMapper.toDatabase(user);
         return this.prisma.user.upsert({
-          where: {id: user.id},
+          where: { id: dbUser.id },
           update: {
-            id: user.id,
             first_name: user.firstName,
             last_name: user.lastName,
-            email: user.email,
-            gender: user.gender,
             age: user.age,
             phone: user.phone,
             seeking_partner: user.seekingPartner,
@@ -51,33 +49,15 @@ export class UserRepositoryImpl implements UserRepository {
             is_trainer: user.isTrainer,
             hourly_rate: user.hourlyRate,
             gym_id: user.gymId,
-            role: user.role,
+            role: UserMapper.toDatabaseRole(user.role),
             updated_at: user.updatedAt,
           },
-          create: {
-            id: user.id,
-            first_name: user.firstName,
-            last_name: user.lastName,
-            email: user.email,
-            role: user.role,
-            gender: user.gender,
-            age: user.age,
-            phone: user.phone,
-            seeking_partner: user.seekingPartner,
-            preferred_time: user.preferredTime,
-            is_trainer: user.isTrainer,
-            updated_at: user.updatedAt,
-            created_at: user.createdAt,
-          }
+          create: dbUser,
         });
-      }),
+      })
     );
 
-    const domainSaved = [];
-    for (const save of saved) {
-      domainSaved.push(UserMapper.toDomain(save));
-    }
-    return Promise.resolve(domainSaved);
+    return saved.map(UserMapper.toDomain);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

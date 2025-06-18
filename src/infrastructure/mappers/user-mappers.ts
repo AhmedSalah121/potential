@@ -1,4 +1,3 @@
-// src/infrastructure/mappers/user.mapper.ts
 import { User } from '../../domain/entities/User';
 import { $Enums, Gender, User as PrismaUser } from '@prisma/client';
 import * as domain from "../../domain/entities/User";
@@ -61,12 +60,12 @@ export class UserMapper {
     }
   }
 
-  private static toDatabaseRole(
+  public static toDatabaseRole(
     status: domain.UserRole,
   ): $Enums.Role {
     switch (status) {
       case domain.UserRole.Member:
-        return domain.UserRole.Member; // String value 'MEMBER'
+        return domain.UserRole.Member;
       case domain.UserRole.Admin:
         return domain.UserRole.Admin;   // String value 'ADMIN'
       case domain.UserRole.Trainer:
