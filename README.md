@@ -1,4 +1,4 @@
-# Store Backend API
+# Backend API
 
 A TypeScript/Node.js API for an e-commerce store using:
 - Domain-Driven Design (DDD) architecture
