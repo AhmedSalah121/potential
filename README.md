@@ -42,16 +42,7 @@ This API implements a flexible fetch/save pattern:
 
 ## API Endpoints
 
-### Products
-
-- `GET /api/products`: Get all active products
-- `GET /api/products/category/:categoryId`: Get products by category
-- `GET /api/products/fetch`: Get products with flexible options
-  - Query parameters:
-    - `categoryId`: Filter by category
-    - `includeInactive`: Include inactive products (true/false)
-    - `limit`: Number of products to return
-    - `offset`: Number of products to skip
+WIP
 
 ## Testing
 
