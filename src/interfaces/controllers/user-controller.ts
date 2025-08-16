@@ -1,5 +1,6 @@
 import { UserFetchOptions, UserRepository } from '../../domain/repositories/user-repository';
 import { Response, Request, NextFunction } from 'express';
+import './express-extensions';
 
 class UserController {
   private readonly userRepository: UserRepository;
